@@ -40,7 +40,6 @@ class TextInputWidget extends StatefulWidget {
 
 class _TextInputWidgetState extends State<TextInputWidget> {
   final TextEditingController _controller = TextEditingController();
-  String _text = "";
 
   @override
   void dispose() {
@@ -48,30 +47,20 @@ class _TextInputWidgetState extends State<TextInputWidget> {
     super.dispose();
   }
 
-  void changeText(String text) {
-    if (text == "hello world!") {
-      _controller.clear();
-      text = "";
-    }
-    setState(() {
-      _text = text;
-    });
-  }
-
-  @override
+   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
+    return 
         TextField(
           controller: _controller,
           decoration: InputDecoration(
             prefixIcon: Icon(Icons.message),
             labelText: "Type a message",
-          ),
-          onChanged: (text) => changeText(text),
-        ),
-        Text(_text),
-      ],
+            suffixIcon: IconButton(
+              icon: Icon(Icons.send),
+              splashColor: Colors.amber[600],
+              tooltip: "Post Message!",
+              onPressed: ()=> {},
+            ))    
     );
   }
 }
