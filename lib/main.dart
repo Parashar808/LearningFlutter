@@ -20,7 +20,23 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  String text="";
+
+  void ChangeText(String text){
+    this.setState(() {
+      this.text=text;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,12 +44,16 @@ class MyHomePage extends StatelessWidget {
         title: Text('Hello World!'),
         backgroundColor: Colors.amberAccent,
       ),
-      body: TextInputWidget(),
+      body:Column(children:<Widget>[TextInputWidget(this.ChangeText),Text(this.text)])
     );
   }
 }
 
 class TextInputWidget extends StatefulWidget {
+  final Function(String) callback;
+
+  TextInputWidget(this.callback);
+  
   @override
   State<TextInputWidget> createState() => _TextInputWidgetState();
 }
@@ -45,6 +65,14 @@ class _TextInputWidgetState extends State<TextInputWidget> {
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  void click(){
+      widget.callback(_controller.text);
+      _controller.clear();
+
+
+
   }
 
    @override
@@ -59,7 +87,7 @@ class _TextInputWidgetState extends State<TextInputWidget> {
               icon: Icon(Icons.send),
               splashColor: Colors.amber[600],
               tooltip: "Post Message!",
-              onPressed: ()=> {},
+              onPressed: this.click,
             ))    
     );
   }
